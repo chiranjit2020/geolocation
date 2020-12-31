@@ -4,11 +4,48 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Geolocation</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap" rel="stylesheet">
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+		}
+		body{
+			font-family: 'Syne Mono', monospace;
+			padding: 0;
+			margin: 0;
+			background-color: #222;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+
+
+		}
+		#demo{
+			background-color: #f2dcb1;
+			max-width: 300px;
+			width: 40%;
+			padding: 20px;
+			border-radius: 5px;
+			box-shadow: 0 0 20px 0 rgba(0,0,0,0.5);
+		}
+		h4{
+			font-size: 20px;
+			padding: 0 0 15px 0;
+			text-align: center;
+		}
+		p{
+			font-size: 14px;
+			padding: 0 0 12px 0;
+		}
+	</style>
 </head>
 <body>
 	
 	<div id="demo"></div>
-
 
 
 	<script defer async>
@@ -37,18 +74,41 @@
 
 			let date = new Date(options.timestamp);
 
-		  x.innerHTML = `Lat: ${options.lat} <br> Long: ${options.lon} <br> Accuracy: ${options.accu} <br> Altitude: ${options.altt} <br> Altitude Accuracy: ${options.alttAccu} <br> Heading Towards(CW from North): ${options.head} <br> Speed(m/s): ${options.speed} <br> Time: ${date}`;
+			let content = `
+				<h4>Your Current Position <small>আপনার বর্তমান অবস্থান</small></h4>
+				<p>&#9679; <strong>Lat(অক্ষাংশ):</strong> ${options.lat}</p>
+				<p>&#9679; <strong>Long(দ্রাঘিমাংশ):</strong> ${options.lon}</p>
+				<p>&#9679; <strong>Accuracy(সঠিকতা):</strong> ${options.accu}</p>
+				<p>&#9679; <strong>Altitude(উচ্চতা):</strong> ${options.altt}</p>
+				<p>&#9679; <strong>Altitude Accuracy(উচ্চতা সঠিকতা):</strong> ${options.alttAccu}</p>
+				<p>&#9679; <strong>Heading Towards(CW from North)(অভিমুখ):</strong> ${options.head}</p>
+				<p>&#9679; <strong>Speed(m/s)(বেগ):</strong> ${options.speed}</p>
+				<p>&#9679; <strong>Date & Time(তারিখ ও সময়):</strong> ${date}</p>
+			`;
+
+		  x.innerHTML = content;
 		}
 
-// 		function showPosition(position) {
-//   var latlon = position.coords.latitude + "," + position.coords.longitude;
 
-//   var img_url = "https://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&size=400x300&sensor=false&key=AIzaSyAQw4yri8W0yOo8z6h98Lv6xz7FTFmhQ-Q";
+	getLocation();
 
-//   document.getElementById("mapholder").innerHTML = "<img src='"+img_url+"'>";
-// }
-
-getLocation();
+//Error Handling
+	function showError(error) {
+  switch(error.code) {
+    case error.PERMISSION_DENIED:
+      x.innerHTML = "User denied the request for Geolocation."
+      break;
+    case error.POSITION_UNAVAILABLE:
+      x.innerHTML = "Location information is unavailable."
+      break;
+    case error.TIMEOUT:
+      x.innerHTML = "The request to get user location timed out."
+      break;
+    case error.UNKNOWN_ERROR:
+      x.innerHTML = "An unknown error occurred."
+      break;
+  }
+}
 	</script>
 
 </body>
