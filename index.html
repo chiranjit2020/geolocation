@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Geolocation</title>
+</head>
+<body>
+	
+	<div id="demo"></div>
+
+
+
+	<script defer async>
+		var x = document.getElementById("demo");
+
+		function getLocation() {
+		  if (navigator.geolocation) {
+		    //navigator.geolocation.getCurrentPosition(showPosition);
+		    navigator.geolocation.watchPosition(showPosition);
+		  } else {
+		    x.innerHTML = "Geolocation is not supported by this browser.";
+		  }
+		}
+
+		function showPosition(position) {
+			let options ={
+				lat : position.coords.latitude,
+				lon : position.coords.latitude,
+				accu : position.coords.accuracy,
+				altt : position.coords.altitude,
+				alttAccu : position.coords.altitudeAccuracy,
+				head : position.coords.heading,
+				speed : position.coords.speed,
+				timestamp : position.timestamp	
+			}
+
+			let date = new Date(options.timestamp);
+
+		  x.innerHTML = `Lat: ${options.lat} <br> Long: ${options.lon} <br> Accuracy: ${options.accu} <br> Altitude: ${options.altt} <br> Altitude Accuracy: ${options.alttAccu} <br> Heading Towards(CW from North): ${options.head} <br> Speed(m/s): ${options.speed} <br> Time: ${date}`;
+		}
+
+// 		function showPosition(position) {
+//   var latlon = position.coords.latitude + "," + position.coords.longitude;
+
+//   var img_url = "https://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&size=400x300&sensor=false&key=AIzaSyAQw4yri8W0yOo8z6h98Lv6xz7FTFmhQ-Q";
+
+//   document.getElementById("mapholder").innerHTML = "<img src='"+img_url+"'>";
+// }
+
+getLocation();
+	</script>
+
+</body>
+</html>
